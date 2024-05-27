@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tradutor de linguagem</title>
+    <link href="css.css" rel="stylesheet">
+    <link rel="stylesheet" href="./Assets/css/dracula.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="scripts.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="title">Tradutor de linguagem</h2><br>
+        <p class="lead">Linguagens Formais e Compiladores<b> II</b></p>
+
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-6">
+                <select id="language" class="form-select selectLanguage" aria-label="Default select example">
+                    <option selected>Selecione a linguagem de origem</option>
+                    <option value="1">Rust</option>
+                    <option value="2">C</option>
+                </select><br><br>
+                <textarea>
+
+                  </textarea>
+            </div>
+            <div class="col col-lg-6">
+                <select class="form-select selectLanguage" aria-label="Default select example">
+                    <option value="1" selected>C++</option>
+                </select><br><br>
+                <pre><code class="teste language-C++">
+                    #include <array>
+                        #include <cmath>
+                        #include <iostream>
+                        #include <print>
+                        #include <ranges>
+                        
+                        double f(double t) {
+                            return sqrt(abs(t)) + 5 * pow(t, 3);
+                        }
+                        
+                        int main() {
+                            std::array<double, 11> a;
+                            for (auto& t : a) {
+                                std::cin >> t;
+                            }
+                        
+                            for (const auto [i, t] : a | std::views::enumerate | std::views::reverse) {
+                                if (auto y = f(t); y > 400) {
+                                    std::println("{} TOO LARGE", i);
+                                } else {
+                                    std::println("{} {}", i, y);
+                                }
+                            }
+                        }
+                  </code></pre>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js/dist/highlightjs-line-numbers.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+
+<script>
+
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad();
+    document.querySelectorAll('pre .language-C++').forEach((el) => {
+        hljs.highlightElement(el);
+    });
+
+
+</script>
+
+</html>

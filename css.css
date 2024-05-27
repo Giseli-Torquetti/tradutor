@@ -1,0 +1,88 @@
+/*referencia style: https://codepen.io/uixmat/pen/yadZXv*/
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+html,
+body,
+* {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+html,
+body {
+  height: 100%;
+  text-align: center;
+}
+
+body {
+  padding: 2rem;
+  background-color: #010431 !important;
+}
+
+.title {
+  font-family: "Roboto", sans-serif;
+  font-size: 26px;
+  line-height: 1;
+  color: #f8f8f8;
+  margin-bottom: 0;
+}
+
+.lead  {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  color: #5f6982;
+}
+
+.uploader {
+  display: block;
+  clear: both;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+
+  label {
+    float: left;
+    clear: both;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 7px;
+    border: 3px solid #eee;
+    transition: all .2s ease;
+    user-select: none;
+
+    &:hover {
+      border-color: #454cad;
+    }
+
+    &.hover {
+      border: 3px solid #454cad;
+      box-shadow: inset 0 0 0 6px #eee;
+    }
+  }
+
+}
+
+textarea{
+  width: 650px;
+  height: 1000px;
+  background: #010431;
+  border-radius: 8px;
+  color: #f8f8f8 !important;
+
+}
+
+.selectLanguage{
+  background-color: #050131 !important;
+  border-color: #767676 !important;
+  color: #f8f8f8 !important;
+}
+
+.teste{
+  background-color: #050131 !important;
+  color: white !important;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
