@@ -1,4 +1,3 @@
-/*referencia style: https://codepen.io/uixmat/pen/yadZXv*/
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
@@ -65,8 +64,8 @@ body {
 
 }
 
-textarea{
-  width: 650px;
+textarea, .campo-cod-destino{
+  width: 100%;
   height: 1000px;
   background: #010431;
   border-radius: 8px;
@@ -80,9 +79,36 @@ textarea{
   color: #f8f8f8 !important;
 }
 
-.teste{
+.campo-cod-destino{
   background-color: #050131 !important;
   color: white !important;
   border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+.btn-acoes{
+  background-color: #f710f4 !important;
+  color: #fff !important;
+}
+
+code {
+  text-align: left;
+}
+
+.btns{
+  display: flow;
+}
+
+#btn-download{
+  width: 50px;
+  height: 40px;
+}
+
+#download-icon{
+  display: inline-block;
+  width: 30px !important;
+  height: 20px !important;
+  background-image: url('./download-solid.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
