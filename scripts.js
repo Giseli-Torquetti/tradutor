@@ -8,10 +8,14 @@ window.addEventListener("load", (event) => {
     document.getElementById('btn-translate').addEventListener("click", translateCode);
 });
 
-function downloadCod(){
+function downloadCod() {
 
 }
 
-function translateCode(){
-
+function translateCode() {
+    var selectElement = document.getElementById("language");
+    var selectedValue = selectElement.value;
+    var text = document.getElementById("original-code").value;
+    var translatedCode = selectedValue == "1" ? convertRustToCpp(text) : translateCtoCpp(text);
+    document.getElementById("destino").textContent = translatedCode;
 }

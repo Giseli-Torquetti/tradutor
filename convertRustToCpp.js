@@ -30,6 +30,53 @@ function convertRustToCpp(rustCode) {
         return lineCount;
     }
 
+    function translatePrintlnLine(rustLine) {
+        // Regex para capturar o conteúdo dentro de println!
+        const printlnRegex = /println!\s*\(([^)]*)\)\s*;/;
+    
+        // Executa a regex na linha de código
+        const match = rustLine.match(printlnRegex);
+        
+        // Extrai o conteúdo da captura
+        let content = match[1];
+    
+        // Remove as aspas duplas exteriores se estiverem presentes
+        if (content.startsWith('"') && content.endsWith('"')) {
+            content = content.slice(1, -1);
+        }
+    
+        // Substitui placeholders {} por o operador de inserção <<
+        content = content.replace(/\{\}/g, '<<');
+    
+        // Separa o texto estático e variáveis
+        const parts = content.split(/<<\s*/);
+    
+        // Constrói a linha traduzida para C++
+        let cppLine = 'std::cout << ';
+        for (let i = 0; i < parts.length; i++) {
+            let part = parts[i].trim();
+            if (i > 0) {
+                cppLine += ' << ';
+            }
+            if (part.match(/^\d+$/)) {
+                // Se a parte é um número, adiciona direto
+                cppLine += part;
+            } else if (part.includes('"')) {
+                // Se a parte é uma string com aspas, adiciona direto
+                cppLine += part;
+            } else {
+                // Adiciona aspas à string literal se não tiver
+                if (!part.startsWith('"') && !part.endsWith('"')) {
+                    part = `"${part}"`;
+                }
+                cppLine += part;
+            }
+        }
+        cppLine += ' << std::endl;';
+    
+        return cppLine;
+    }
+
     for (let lineNumber = 0; lineNumber < lines.length; lineNumber++) {
         let line = lines[lineNumber];
 
@@ -50,7 +97,7 @@ function convertRustToCpp(rustCode) {
             let hasDefaultValue = line.includes("=");
             line = `${typeMapping[varType]} ${varName}`
             if (hasDefaultValue) {
-                line += ` = ${oldLineProps[1]}`
+                line += ` = ${oldLineProps[3].replace(";", "")}`
             }
             line += ";"
             cppCode += line + "\n";
@@ -91,6 +138,11 @@ function convertRustToCpp(rustCode) {
         if (line.trim() == "") {
             cppCode += '\n'; continue;
         }
+
+        if (line.includes("println")) {
+            cppCode += translatePrintlnLine(line) +'\n'; continue;
+        }
+        //cppCode += line.trim();
     }
 
     return cppCode;
