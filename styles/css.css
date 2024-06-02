@@ -112,3 +112,8 @@ code {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.row{
+  margin: 0;
+  height: 65px;
+}

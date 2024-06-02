@@ -6,7 +6,6 @@ function translateCtoCpp(code) {
     for (let line of lines) {
         line = line.trim();
         
-        // Traduzir structs
         if (line.startsWith('struct ')) {
             if (line.endsWith('{')) {
                 inStruct = true;
@@ -25,51 +24,32 @@ function translateCtoCpp(code) {
             continue;
         }
 
-        // Traduzir variáveis e arrays
         if (line.startsWith('int ') || line.startsWith('float ') || line.startsWith('char ') || line.startsWith('double ')) {
             result.push(line);
             continue;
         }
 
-        // Traduzir condicionais if/else
         if (line.startsWith('if (') || line.startsWith('else if (') || line.startsWith('else {')) {
             result.push(line);
             continue;
         }
 
-        // Traduzir loops
         if (line.startsWith('for (') || line.startsWith('while (') || line.startsWith('do {')) {
             result.push(line);
             continue;
         }
 
-        // Traduzir funções (incluindo main)
         if (line.startsWith('void ') || line.startsWith('int main(')) {
             result.push(line);
             continue;
         }
 
-        // Outros casos
         result.push(line);
     }
 
-    // Adicionar return 0 no main se não estiver presente
-    let mainFunctionFound = false;
-    for (let i = 0; i < result.length; i++) {
-        if (result[i].includes('int main')) {
-            mainFunctionFound = true;
-            let mainBodyStart = result.indexOf(result[i]) + 1;
-            let mainBodyEnd = result.indexOf('}', mainBodyStart);
-            let mainBody = result.slice(mainBodyStart, mainBodyEnd);
-            result = [...result.slice(0, mainBodyStart), ...mainBody, ...result.slice(mainBodyEnd)];
-            break;
-        }
-    }
-
-    return result.join('\n');
+    return indentCppCode(result.join('\n'));
 }
 
-// Exemplo de uso
 const codeC = `
 #include <stdio.h>
 #include <stdlib.h>
@@ -95,7 +75,7 @@ int main() {
     }
     
     for (int i = 0; i < numPessoas; i++) {
-        printf("%s tem %d anos e é ", pessoas[i].nome, pessoas[i].idade);
+        printf("%s é ", pessoas[i].nome);
         if (pessoas[i].idade >= 18) {
             printf("maior de 18 anos\\n");
         } else {
