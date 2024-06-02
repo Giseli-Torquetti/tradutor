@@ -1,5 +1,5 @@
+var translatedCode = null;
 window.addEventListener("load", (event) => {
-    var translatedCode = null;
     hljs.highlightAll();
     hljs.initLineNumbersOnLoad();
     document.querySelectorAll("pre #destino").forEach((el) => {
