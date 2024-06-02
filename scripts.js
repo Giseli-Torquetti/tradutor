@@ -34,6 +34,11 @@ function translateCode() {
     var text = document.getElementById("original-code").value;
     translatedCode = selectedValue == "1" ? convertRustToCpp(text) : translateCtoCpp(text);
     document.getElementById("destino").textContent = translatedCode;
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad();
+    document.querySelectorAll("pre #destino").forEach((el) => {
+        hljs.highlightElement(el);
+    });
 }
 
 function indentCppCode(code) {
