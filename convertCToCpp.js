@@ -90,4 +90,3 @@ int main() {
 `;
 
 const codeCpp = translateCtoCpp(codeC);
-console.log(codeCpp);
