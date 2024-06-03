@@ -38,19 +38,19 @@ function convertRustToCpp(rustCode) {
         return null;
     }
 
-    function converterAdicaoArrayRustParaCpp(linhaRust) {
-        const regexAdicaoArrayRust = /([a-zA-Z0-9_]+)\.push\(([A-Za-z_{} ,]+)\);/;
-        const match = linhaRust.match(regexAdicaoArrayRust);
+    function convertRustPushToCpp(rustLine) {
+        const rustPushRegex = /([a-zA-Z0-9_]+)\.push\(([A-Za-z_{} ,]+)\);/;
+        const match = rustLine.match(rustPushRegex);
         if (match) {
-            const arrayNome = match[1];
-            let valores = match[2].replace(/[{}]/g, '').split(',').map(valor => valor.trim());
-            const variaveis = valores.slice(1).map(valor => valor.trim().split(' ')[0]);
-            variaveis.push(valores[0].split(`  `)[1].trim());
-            let operacaoCpp = '';
-            for (let i = 0; i < variaveis.length; i++) {
-                operacaoCpp += `${arrayNome}[i].${variaveis[i]} = ${variaveis[i]};\n`;
+            const arrayName = match[1];
+            let values = match[2].replace(/[{}]/g, '').split(',').map(value => value.trim());
+            const variables = values.slice(1).map(value => value.trim().split(' ')[0]);
+            variables.push(values[0].split(`  `)[1].trim());
+            let cppOperation = '';
+            for (let i = 0; i < variables.length; i++) {
+                cppOperation += `${arrayName}[i].${variables[i]} = ${variables[i]};\n`;
             }
-            return operacaoCpp;
+            return cppOperation;
         }
         return null;
     }
@@ -77,10 +77,10 @@ function convertRustToCpp(rustCode) {
             }
         }
 
-        const vetorStructRegex = /let mut (\w+): Vec<(\w+)> = Vec::with_capacity\((\w+)\);/;
-        if (vetorStructRegex.test(line)) {
-            const [, nomeVariavel, tipoStruct, capacidade] = line.match(vetorStructRegex);
-            let newLine = `struct ${tipoStruct}* ${nomeVariavel} = (struct ${tipoStruct}*)malloc(${capacidade} * sizeof(struct ${tipoStruct}));`;
+        const rustVecRegex = /let mut (\w+): Vec<(\w+)> = Vec::with_capacity\((\w+)\);/;
+        if (rustVecRegex.test(line)) {
+            const [, varName, structType, size] = line.match(rustVecRegex);
+            let newLine = `struct ${structType}* ${varName} = (struct ${structType}*)malloc(${size} * sizeof(struct ${structType}));`;
             cppCode += newLine + '\n'; continue;
         }
 
@@ -150,16 +150,16 @@ function convertRustToCpp(rustCode) {
         }
 
         if (line.includes('read_line')) {
-            const variavel = line.match(/&mut (\w+)/);
-            if (variavel) {
-                var tipo = findVariableType(rustCode, variavel[1].trim());
-                line = line.replace(/std::io::stdin\(\).read_line\(&mut \w+\)\.expect\(.*\);/, `scanf(${tipo == `int` ? `"%d"` : `"%s"`}, &${variavel[1]});`);
+            const variable = line.match(/&mut (\w+)/);
+            if (variable) {
+                var type = findVariableType(rustCode, variable[1].trim());
+                line = line.replace(/std::io::stdin\(\).read_line\(&mut \w+\)\.expect\(.*\);/, `scanf(${type == `int` ? `"%d"` : `"%s"`}, &${variable[1]});`);
             }
             cppCode += line.trim() + '\n'; continue;
         }
 
         if (line.includes('.push')) {
-            var codigo = converterAdicaoArrayRustParaCpp(line);
+            var codigo = convertRustPushToCpp(line);
             cppCode += codigo + '\n'; continue;
         }
 
